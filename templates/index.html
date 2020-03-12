@@ -12,6 +12,31 @@ Benford's Law
 {% block content %}
 <h1>Benford's Law</h1>
 
+<h2>Select a file to upload</h2>
+<p>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            <ul>
+        {% endif %}
+    {% endwith %}
+</p>
+<form method="post" action="/" enctype="multipart/form-data">
+    <div class="form-group">
+        <dl>
+            <p>
+                <input class="form-control" type="file" name="file" autocomplete="off" required>
+            </p>
+        </dl>
+    </div>
+    <p>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </p>
+</form>
+
 <div class="container">
     <div class="row">
         <div class="col-md-6">
