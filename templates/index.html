@@ -10,36 +10,50 @@ Benford's Law
 {% endblock %}
 
 {% block content %}
-<h1>Benford's Law</h1>
-
-<h2>Select a file to upload</h2>
-<p>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            <ul>
-        {% endif %}
-    {% endwith %}
-</p>
-<form method="post" action="/" enctype="multipart/form-data">
-    <div class="form-group">
-        <dl>
-            <p>
-                <input class="form-control" type="file" name="file" autocomplete="off" required>
-            </p>
-        </dl>
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <h1>Benford's Law</h1>
+      <h5>Select a file to upload and analyze.</h5>
     </div>
-    <p>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </p>
-</form>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <p>
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <ul class=flashes>
+                      {% for message in messages %}
+                          <li>{{ message }}</li>
+                      {% endfor %}
+                  <ul>
+              {% endif %}
+          {% endwith %}
+      </p>
+    </div>
+  </div>
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <form method="post" action="/" enctype="multipart/form-data">
+        <div class="form-group">
+          <dl>
+              <p>
+                  <input class="form-control" type="file" name="file" autocomplete="off" required>
+              </p>
+          </dl>
+        </div>
+        <p>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row justify-content-md-center">
+        <div class="col-auto">
             <div class="chart" id="bargraph">
                 <script>
                     var graphs = {{plot | safe}};

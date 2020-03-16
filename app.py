@@ -11,12 +11,9 @@ from werkzeug.utils import secure_filename
 import plotly
 import plotly.graph_objs as go
 
-import pandas as pd
-import numpy as np
 import json
 
-UPLOAD_FOLDER = '/Users/eabell/tmp'
-
+UPLOAD_FOLDER = '/app/tmp'
 BENFORDS_LAW = {d: log(d+1, 10)-log(d, 10) for d in range(1, 10)}
 
 
@@ -62,7 +59,6 @@ def generate_plot(filename):
     Perform: extract numbers and construct graph
     Returns: json string representing the graph
     """
-    # numbers_dict = get_numbers_from_file(filename)
     numbers_dict = get_numbers_from_file(filename)
     numbers_count = numbers_dict['count']
 
@@ -88,12 +84,15 @@ def generate_plot(filename):
             name="Benford's Law"
     )
 
-    hyp_test = chisquare(list(freq_normalized.values()), list(BENFORDS_LAW.values()))
-
-    if hyp_test.pvalue < 0.05:
-        title = "{} is significantly different from Benford's Law".format(filename)
-    else:
-        title = "{} obeys Benford's Law".format(filename)
+    try:
+        hyp_test = chisquare(list(freq_normalized.values()), list(BENFORDS_LAW.values()))
+        if hyp_test.pvalue < 0.05:
+            title = "{} is significantly different from Benford's Law".format(filename)
+        else:
+            title = "{} obeys Benford's Law".format(filename)
+    except Exception as e:
+        print(e)
+        title = '{} could not be analyzed'.format(filename)
 
     layout = go.Layout(title=title, xaxis_title='Digit', yaxis_title='Frequency')
     figure = go.Figure()
@@ -108,7 +107,7 @@ app = Flask(__name__)
 Bootstrap(app)
 app.secret_key = 'secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 
 
 @app.route('/')
