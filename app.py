@@ -37,6 +37,9 @@ def process_line(line):
 
 def get_numbers_from_file(filename):
     """
+    Given: a filename stored in UPLOAD_FOLDER
+    Perform: read lines from file, extract numbers
+    Returns: a dict with numbers and other meta as needed
     """
     numbers = []
 
